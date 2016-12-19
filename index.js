@@ -34,8 +34,4 @@ client.on('message', msg => {
 
 });
 
-function correctB(str) {
-
-}
-
 client.login(config.token);
