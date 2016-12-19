@@ -41,7 +41,7 @@ client.on('message', msg => {
             let indx = Math.floor(Math.random() * words.length);
             words[indx] = bChar + words[indx].substring(1);
             msg.edit(words.join(' '));
-        }, 10);
+        }, 100);
     }
 
     if (!nogtext[msg.channel]) {
@@ -49,7 +49,7 @@ client.on('message', msg => {
             if (msg.content.startsWith(">")) {
                 msg.edit("```css\n" + msg.content + "\n```")
             }
-        });
+        }, 100);
     }
 
 
