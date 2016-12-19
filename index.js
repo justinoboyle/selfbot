@@ -4,6 +4,7 @@ const client = new Discord.Client();
 const config = require('./config');
 
 const bCorrector = {};
+const nogtext = {};
 
 const bChar = "🅱️";
 
@@ -22,6 +23,18 @@ client.on('message', msg => {
         return;
     }
 
+    if (msg.content.toLowerCase() == "/g off") {
+        nogtext[msg.channel] = true;
+        return msg.delete();
+    }
+
+    if (msg.content.toLowerCase() == "/g on") {
+        nogtext[msg.channel] = false;
+        delete nogtext[msg.channel];
+        msg.delete();
+        return;
+    }
+
     if (bCorrector[msg.channel]) {
         setTimeout(() => {
             let words = msg.content.split(' ');
@@ -29,6 +42,14 @@ client.on('message', msg => {
             words[indx] = bChar + words[indx].substring(1);
             msg.edit(words.join(' '));
         }, 10);
+    }
+
+    if (!nogtext[msg.channel]) {
+        setTimeout(() => {
+            if (msg.content.startsWith(">")) {
+                msg.edit("```css\n" + msg.content + "\n```")
+            }
+        });
     }
 
 
