@@ -8,6 +8,22 @@ const nogtext = {};
 
 const bChar = "🅱️";
 
+global.embed =(url, title = url, description = 'ᅠ') => {
+  if (description !== 'ᅠ') description += '\n';
+  return {
+    title: title,
+    description: description,
+    url,
+    timestamp: new Date(),
+    video: { url },
+    image: { url },
+    footer: {
+      text: '',
+      icon_url: ''
+    }
+  }
+}
+
 client.on('message', msg => {
     if (msg.author.id !== config.userid)
         return;
