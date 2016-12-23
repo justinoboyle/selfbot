@@ -40,7 +40,7 @@ client.on('message', msg => {
             eval(msg.content.substring('/eval '.length));
             msg.delete();
         }catch(e) {
-            msg.edit("Error");
+            msg.edit(e.toString());
         }
     }
 
