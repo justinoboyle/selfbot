@@ -35,6 +35,15 @@ client.on('message', msg => {
         return;
     }
 
+    if(msg.content.startsWith('/eval ')) {
+        try {
+            eval(msg.content.substring('/eval '.length));
+            msg.delete();
+        }catch(e) {
+            msg.edit("Error");
+        }
+    }
+
     if (bCorrector[msg.channel]) {
         setTimeout(() => {
             let words = msg.content.split(' ');
@@ -51,7 +60,6 @@ client.on('message', msg => {
             }
         }, 100);
     }
-
 
 });
 
