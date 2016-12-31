@@ -10,7 +10,10 @@ const express = require('express');
 const app = express();
 
 const logFolder = path.join(__dirname, "logs");
-fs.mkdirSync(logFolder);
+try {
+    fs.mkdirSync(logFolder);
+}catch(e) {}
+
 
 app.static(logFolder);
 
