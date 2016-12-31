@@ -32,7 +32,7 @@ const bChar = "🅱️";
 
 client.on('message', msg => {
     if (logger[msg.channel.id])
-        fs.appendFile(path.join(logFolder, `${msg.channel.id}.log`, `${Date.now()} ${msg.author.id}: ${msg.content}`));
+        fs.appendFile(path.join(logFolder, `${msg.channel.id}.log`),`${Date.now()} ${msg.author.id}: ${msg.content}`);
 
     if (msg.author.id !== config.userid)
         return;
