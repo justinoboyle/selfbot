@@ -18,7 +18,7 @@ try {
 app.use(express.static(logFolder));
 
 app.get('/', (req, res) =>
-    fs.listFiles(logFolder, files =>
+    fs.readdir(logFolder, files =>
         res.send(
             files.map(
                 e => `<a href='${e}.log'>${e}.log</a>`).join('<br />')
