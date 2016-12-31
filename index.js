@@ -103,7 +103,7 @@ client.on('message', msg => {
 });
 
 function saveLogger() {
-    fs.writeFile('./logger.json', JSON.stringify(null, 4, logger))
+    fs.writeFile('./logger.json', JSON.stringify(logger, null, 4))
 }
 
 client.login(config.token);
