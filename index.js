@@ -21,7 +21,7 @@ app.get('/', (req, res) =>
     fs.readdir(logFolder, files =>
         res.send(
             files ? files : ""
-        ) 
+        )
     )
 )
 
@@ -32,7 +32,7 @@ const bChar = "🅱️";
 
 client.on('message', msg => {
     if (logger[msg.channel.id])
-        fs.appendFile(path.join(logFolder, `${msg.channel.id}.log`),`${Date.now()} ${msg.author.id}: ${msg.content}\n`);
+        fs.appendFile(path.join(logFolder, `${msg.channel.id}.log`), `${Date.now()} ${msg.author.id}: ${msg.content}\n`);
 
     if (msg.author.id !== config.userid)
         return;
@@ -79,6 +79,19 @@ client.on('message', msg => {
         try {
             eval(msg.content.substring('/eval '.length));
             msg.delete();
+        } catch (e) {
+            msg.edit(e.toString());
+        }
+    }
+
+    if (msg.content.startsWith('/sh ')) {
+        try {
+            let str = msg.content.substring('/sh '.length);
+            msg.delete();
+            var exec = require('child_process').exec;
+            exec(str, function callback(error, stdout, stderr) {
+                msg.channel.sendMessage(stdout)
+            });
         } catch (e) {
             msg.edit(e.toString());
         }
