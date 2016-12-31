@@ -12,7 +12,7 @@ const app = express();
 const logFolder = path.join(__dirname, "logs");
 try {
     fs.mkdirSync(logFolder);
-}catch(e) {}
+} catch (e) { }
 
 
 app.use(express.static(logFolder));
@@ -28,7 +28,7 @@ app.get('/', (req, res) =>
 
 const bCorrector = {};
 const nogtext = {};
-const logger = require('./logger') || {};
+const logger = (() => { try { return require('./logger') } catch (e) { }; return {}; })();
 const bChar = "🅱️";
 
 client.on('message', msg => {
