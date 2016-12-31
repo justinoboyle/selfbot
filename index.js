@@ -31,46 +31,46 @@ const logger = (() => { try { return require('./logger') } catch (e) { }; return
 const bChar = "🅱️";
 
 client.on('message', msg => {
-    if (logger[msg.channel])
-        fs.appendFile(path.join(logFolder, `${msg.channel}.log`, `${Date.now()} ${msg.author.id}: ${msg.content}`));
+    if (logger[msg.channel.id])
+        fs.appendFile(path.join(logFolder, `${msg.channel.id}.log`, `${Date.now()} ${msg.author.id}: ${msg.content}`));
 
     if (msg.author.id !== config.userid)
         return;
 
     if (msg.content.toLowerCase() == "/b on") {
-        bCorrector[msg.channel] = true;
+        bCorrector[msg.channel.id] = true;
         return msg.delete();
     }
 
     if (msg.content.toLowerCase() == "/b off") {
-        bCorrector[msg.channel] = false;
-        delete bCorrector[msg.channel];
+        bCorrector[msg.channel.id] = false;
+        delete bCorrector[msg.channel.id];
         msg.delete();
         return;
     }
 
     if (msg.content.toLowerCase() == "/log on") {
-        logger[msg.channel] = true;
+        logger[msg.channel.id] = true;
         saveLogger();
         return msg.delete();
     }
 
     if (msg.content.toLowerCase() == "/log off") {
-        logger[msg.channel] = false;
-        delete logger[msg.channel];
+        logger[msg.channel.id] = false;
+        delete logger[msg.channel.id];
         msg.delete();
         saveLogger();
         return;
     }
 
     if (msg.content.toLowerCase() == "/g off") {
-        nogtext[msg.channel] = true;
+        nogtext[msg.channel.id] = true;
         return msg.delete();
     }
 
     if (msg.content.toLowerCase() == "/g on") {
-        nogtext[msg.channel] = false;
-        delete nogtext[msg.channel];
+        nogtext[msg.channel.id] = false;
+        delete nogtext[msg.channel.id];
         msg.delete();
         return;
     }
@@ -84,7 +84,7 @@ client.on('message', msg => {
         }
     }
 
-    if (bCorrector[msg.channel]) {
+    if (bCorrector[msg.channel.id]) {
         setTimeout(() => {
             let words = msg.content.split(' ');
             let indx = Math.floor(Math.random() * words.length);
@@ -93,7 +93,7 @@ client.on('message', msg => {
         }, 100);
     }
 
-    if (!nogtext[msg.channel]) {
+    if (!nogtext[msg.channel.id]) {
         setTimeout(() => {
             if (msg.content.startsWith(">"))
                 msg.edit("```css\n" + msg.content + "\n```")
