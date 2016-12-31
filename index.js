@@ -15,7 +15,7 @@ try {
 }catch(e) {}
 
 
-app.static(logFolder);
+app.use(express.static(logFolder));
 
 app.get('/', (req, res) =>
     fs.listFiles(logFolder, files =>
