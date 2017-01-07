@@ -3,6 +3,8 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 const config = require('./config');
 
+const spokenFn = require('./spoken');
+
 const fs = require('fs');
 
 const path = require('path');
@@ -26,6 +28,7 @@ app.get('/', (req, res) =>
 )
 
 const bCorrector = {};
+const spoken = {};
 const nogtext = {};
 const logger = (() => { try { return require('./logger') } catch (e) { }; return {}; })();
 const bChar = "🅱️";
@@ -48,6 +51,19 @@ client.on('message', msg => {
         msg.delete();
         return;
     }
+
+    if (msg.content.toLowerCase() == "/spoken on") {
+        spoken[msg.channel.id] = true;
+        return msg.delete();
+    }
+
+    if (msg.content.toLowerCase() == "/spoken off") {
+        spoken[msg.channel.id] = false;
+        delete spoken[msg.channel.id];
+        msg.delete();
+        return;
+    }
+
 
     if (msg.content.toLowerCase() == "/log on") {
         logger[msg.channel.id] = true;
@@ -106,6 +122,12 @@ client.on('message', msg => {
         }, 100);
     }
 
+    if (spoken[msg.channel.id]) {
+        setTimeout(() => {
+            msg.edit(spokenFn(msg.content));
+        }, 100);
+    }
+
     if (!nogtext[msg.channel.id]) {
         setTimeout(() => {
             if (msg.content.startsWith(">"))
@@ -120,12 +142,12 @@ function saveLogger() {
 }
 
 function escape(s) {
-    while(s.includes('\\'))
+    while (s.includes('\\'))
         s = s.replace('\\', '\\\\');
-    while(s.includes('`'))
+    while (s.includes('`'))
         s = s.replace('`', '\\`');
     return s;
-    
+
 }
 
 client.login(config.token);
