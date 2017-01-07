@@ -2,7 +2,8 @@ String.prototype.replaceAll = function (target, replacement) {
     return this.split(target).join(replacement);
 };
 
-module.exports = function(str) {
+function fuck(str) {
+    try {
     str = str.toLowerCase();
     str = str.replaceAll("'", "");
     str = str.replaceAll(",", "");
@@ -22,6 +23,11 @@ module.exports = function(str) {
         words[index] = swap(words[index], letterIndex, letterIndex + 1);
     }
     return words.join(" ");
+    }catch(e) {
+        // something went wronglol
+        
+        return str;
+    }
 
 }
 
