@@ -90,7 +90,7 @@ client.on('message', msg => {
             msg.delete();
             var exec = require('child_process').exec;
             exec(str, function callback(error, stdout, stderr) {
-                msg.channel.sendMessage(stdout)
+                msg.channel.sendMessage('```\n' + escape(stdout) + '\n```');
             });
         } catch (e) {
             msg.edit(e.toString());
@@ -117,6 +117,15 @@ client.on('message', msg => {
 
 function saveLogger() {
     fs.writeFile('./logger.json', JSON.stringify(logger, null, 4))
+}
+
+function escape(s) {
+    while(s.includes('\\'))
+        s = s.replace('\\', '\\\\');
+    while(s.includes('`'))
+        s = s.replace('`', '\\`');
+    return s;
+    
 }
 
 client.login(config.token);
